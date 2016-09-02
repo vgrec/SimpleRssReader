@@ -1,9 +1,12 @@
-package com.simplerssreader;
+package com.simplerssreader.main;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
+import com.simplerssreader.R;
+import com.simplerssreader.main.RssFragment;
 
 public class MainActivity extends AppCompatActivity {
 
