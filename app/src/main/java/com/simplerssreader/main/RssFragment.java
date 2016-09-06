@@ -1,5 +1,7 @@
 package com.simplerssreader.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +16,6 @@ import com.simplerssreader.HttpRssLoader;
 import com.simplerssreader.R;
 import com.simplerssreader.RssAdapter;
 import com.simplerssreader.RssItem;
-import com.simplerssreader.main.RssListContract;
-import com.simplerssreader.main.PresenterImpl;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
         RssAdapter adapter = (RssAdapter) parent.getAdapter();
         RssItem item = (RssItem) adapter.getItem(position);
-        presenter.openItemInWebView(getActivity(), item);
+        presenter.viewArticleDetail(item);
     }
 
     @Override
@@ -64,6 +64,13 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     @Override
     public void showLoadingIndicator(boolean show) {
         progressBar.setVisibility(show ? android.view.View.VISIBLE : android.view.View.GONE);
+    }
+
+    @Override
+    public void openInWebView(String url) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     @Override

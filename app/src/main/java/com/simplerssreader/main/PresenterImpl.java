@@ -1,9 +1,5 @@
 package com.simplerssreader.main;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-
 import com.simplerssreader.HttpRssLoader;
 import com.simplerssreader.RssItem;
 
@@ -40,10 +36,8 @@ public class PresenterImpl implements RssListContract.Presenter {
     }
 
     @Override
-    public void openItemInWebView(Context context, RssItem item) {
-        Uri uri = Uri.parse(item.getLink());
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        context.startActivity(intent);
+    public void viewArticleDetail(RssItem item) {
+        view.openInWebView(item.getLink());
     }
 
     @Override

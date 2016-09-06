@@ -1,7 +1,5 @@
 package com.simplerssreader.main;
 
-import android.content.Context;
-
 import com.simplerssreader.RssItem;
 
 import java.util.List;
@@ -15,13 +13,15 @@ public interface RssListContract {
         void showItems(List<RssItem> items);
 
         void showLoadingIndicator(boolean show);
+
+        void openInWebView(String url);
     }
 
     interface Presenter {
 
         void loadItems();
 
-        void openItemInWebView(Context context, RssItem item);
+        void viewArticleDetail(RssItem item);
 
         void cancel();
     }
