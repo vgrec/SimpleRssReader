@@ -15,6 +15,8 @@ public interface RssListContract {
         void showLoadingIndicator(boolean show);
 
         void openInWebView(String url);
+
+        void showError();
     }
 
     interface Presenter {

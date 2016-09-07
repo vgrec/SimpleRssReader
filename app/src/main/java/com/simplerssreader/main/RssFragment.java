@@ -19,6 +19,8 @@ import com.simplerssreader.RssItem;
 
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+
 public class RssFragment extends Fragment implements OnItemClickListener, RssListContract.View {
 
     private ProgressBar progressBar;
@@ -71,6 +73,11 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+    }
+
+    @Override
+    public void showError() {
+
     }
 
     @Override

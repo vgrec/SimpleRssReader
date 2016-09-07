@@ -25,14 +25,15 @@ public class PresenterImpl implements RssListContract.Presenter {
 
     @Override
     public void loadItems() {
-        view.showLoadingIndicator(true);
         subscription = rssLoader.loadRss(RSS_LINK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    view.showLoadingIndicator(false);
-                    view.showItems(result);
-                });
+                .doOnSubscribe(() -> view.showLoadingIndicator(true))
+                .doOnTerminate(() -> view.showLoadingIndicator(false))
+                .subscribe(
+                        result -> view.showItems(result),
+                        error -> view.showError()
+                );
     }
 
     @Override
