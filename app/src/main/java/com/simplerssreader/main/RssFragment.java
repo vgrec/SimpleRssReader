@@ -19,8 +19,6 @@ import com.simplerssreader.RssItem;
 
 import java.util.List;
 
-import rx.android.schedulers.AndroidSchedulers;
-
 public class RssFragment extends Fragment implements OnItemClickListener, RssListContract.View {
 
     private ProgressBar progressBar;
@@ -53,14 +51,8 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
 
     @Override
     public void showItems(List<RssItem> items) {
-        if (items != null) {
-            RssAdapter adapter = new RssAdapter(getActivity(), items);
-            listView.setAdapter(adapter);
-        } else {
-            Toast.makeText(getActivity(),
-                    "An error occurred while downloading the rss feed.",
-                    Toast.LENGTH_LONG).show();
-        }
+        RssAdapter adapter = new RssAdapter(getActivity(), items);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -77,7 +69,9 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
 
     @Override
     public void showError() {
-
+        Toast.makeText(getActivity(),
+                "An error occurred while downloading the rss feed.",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

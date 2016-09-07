@@ -14,18 +14,20 @@ import rx.Observable;
 public class HttpRssLoader {
 
     public Observable<List<RssItem>> loadRss(final String url) {
-        return Observable.fromCallable(() -> makeRequest(url));
+        return Observable.create(subscriber -> {
+            try {
+                subscriber.onNext(makeRequestAndParse(url));
+                subscriber.onCompleted();
+            } catch (XmlPullParserException | IOException e) {
+                Log.w(e.getMessage(), e);
+                subscriber.onError(e);
+            }
+        });
     }
 
-    private List<RssItem> makeRequest(String url) {
-        List<RssItem> rssItems = null;
-        try {
-            PcWorldRssParser parser = new PcWorldRssParser();
-            rssItems = parser.parse(getInputStream(url));
-        } catch (XmlPullParserException | IOException e) {
-            Log.w(e.getMessage(), e);
-        }
-        return rssItems;
+    private List<RssItem> makeRequestAndParse(String url) throws IOException, XmlPullParserException {
+        PcWorldRssParser parser = new PcWorldRssParser();
+        return parser.parse(getInputStream(url));
     }
 
     private InputStream getInputStream(String link) {
