@@ -16,6 +16,7 @@ import rx.Observable;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,7 +74,7 @@ public class PresenterTest {
         when(mockLoader.loadRss(anyString())).thenReturn(mockObservable);
 
         presenter.loadItems();
-        verify(mockView, times(0)).showItems(anyListOf(RssItem.class));
+        verify(mockView, never()).showItems(anyListOf(RssItem.class));
         verify(mockView).showLoadingIndicator(false);
         verify(mockView).showError();
     }
