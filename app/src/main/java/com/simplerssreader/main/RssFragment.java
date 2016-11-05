@@ -13,15 +13,21 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.simplerssreader.R;
+import com.simplerssreader.http.di.DaggerRssListComponent;
+import com.simplerssreader.http.di.RssListModule;
 import com.simplerssreader.model.Item;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class RssFragment extends Fragment implements OnItemClickListener, RssListContract.View {
 
     private ProgressBar progressBar;
     private ListView listView;
-    private RssListContract.Presenter presenter;
+
+    @Inject
+    RssListPresenter presenter;
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,8 +41,15 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new RssListPresenter(this);
+        setupDI();
         presenter.loadItems();
+    }
+
+    private void setupDI() {
+        DaggerRssListComponent.builder()
+                .rssListModule(new RssListModule(this))
+                .build()
+                .inject(this);
     }
 
 

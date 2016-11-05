@@ -24,6 +24,10 @@ public class RssListPresenter implements RssListContract.Presenter {
 
     public RssListPresenter(RssListContract.View view) {
         this.view = view;
+        setupDI();
+    }
+
+    private void setupDI() {
         DaggerNetworkComponent.builder()
                 .networkModule(new NetworkModule())
                 .build()
