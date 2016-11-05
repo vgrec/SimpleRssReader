@@ -9,14 +9,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.simplerssreader.R;
-import com.simplerssreader.model.SimpleItem;
+import com.simplerssreader.model.Item;
 
 public class RssAdapter extends BaseAdapter {
 
-	private final List<SimpleItem> items;
+	private final List<Item> items;
 	private final Context context;
 
-	public RssAdapter(Context context, List<SimpleItem> items) {
+	public RssAdapter(Context context, List<Item> items) {
 		this.items = items;
 		this.context = context;
 	}

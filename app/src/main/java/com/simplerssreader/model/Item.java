@@ -13,9 +13,6 @@ import org.simpleframework.xml.Root;
 @Root(name = "item", strict = false)
 public class Item implements Parcelable {
 
-    public Item() {
-    }
-
     @Element(name = "title", required = true)
     private String title;
 
@@ -40,6 +37,14 @@ public class Item implements Parcelable {
     @Namespace(prefix = "creator")
     @Element(name = "creator", required = false)
     private String dc;
+
+    public Item() {
+    }
+
+    public Item(String title, String link) {
+        this.title = title;
+        this.link = link;
+    }
 
     public String getTitle() {
         return title;
