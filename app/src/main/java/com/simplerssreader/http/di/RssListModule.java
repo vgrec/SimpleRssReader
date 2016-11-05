@@ -1,6 +1,6 @@
 package com.simplerssreader.http.di;
 
-import com.simplerssreader.main.RssFragment;
+import com.simplerssreader.main.RssListContract;
 import com.simplerssreader.main.RssListPresenter;
 
 import dagger.Module;
@@ -9,19 +9,19 @@ import dagger.Provides;
 @Module
 public class RssListModule {
 
-    private RssFragment rssFragment;
+    private RssListContract.View view;
 
-    public RssListModule(RssFragment rssFragment) {
-        this.rssFragment = rssFragment;
+    public RssListModule(RssListContract.View view) {
+        this.view = view;
     }
 
     @Provides
-    RssFragment provideRssFragment() {
-        return rssFragment;
+    RssListContract.View provideRssFragment() {
+        return view;
     }
 
     @Provides
-    RssListPresenter providesRssListPresenter(RssFragment view) {
+    RssListPresenter providesRssListPresenter(RssListContract.View view) {
         return new RssListPresenter(view);
     }
 }
