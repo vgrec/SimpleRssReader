@@ -1,6 +1,6 @@
 package com.simplerssreader;
 
-import com.simplerssreader.main.PresenterImpl;
+import com.simplerssreader.main.RssListPresenter;
 import com.simplerssreader.main.RssListContract;
 import com.simplerssreader.model.SimpleItem;
 
@@ -15,15 +15,13 @@ import java.util.List;
 import rx.Observable;
 
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
- * Tests for the {@link com.simplerssreader.main.PresenterImpl} logic.
+ * Tests for the {@link RssListPresenter} logic.
  * <p>
  * Created by vgrec on 06.09.16.
  */
@@ -42,7 +40,7 @@ public class PresenterTest {
         Utils.setupRxJava();
 
         mockView = mock(RssListContract.View.class);
-        presenter = new PresenterImpl(mockView);
+        presenter = new RssListPresenter(mockView);
 
         // setup test data
         item = new SimpleItem("Mock Item", LINK);

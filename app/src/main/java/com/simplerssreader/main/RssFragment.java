@@ -35,7 +35,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new PresenterImpl(this);
+        presenter = new RssListPresenter(this);
         presenter.loadItems();
     }
 

@@ -18,11 +18,11 @@ import rx.schedulers.Schedulers;
  * Listens to user actions from the UI ({@link RssFragment}), retrieves the data and updates the
  * UI as required.
  */
-public class PresenterImpl implements RssListContract.Presenter {
+public class RssListPresenter implements RssListContract.Presenter {
     private RssListContract.View view;
     private Subscription subscription;
 
-    public PresenterImpl(RssListContract.View view) {
+    public RssListPresenter(RssListContract.View view) {
         this.view = view;
     }
 
