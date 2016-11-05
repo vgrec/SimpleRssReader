@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
@@ -31,4 +32,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'io.reactivex:rxjava:1.1.8'
     compile 'io.reactivex:rxandroid:1.2.0'
+
+    // Dagger
+    apt 'com.google.dagger:dagger-compiler:2.7'
+    compile 'com.google.dagger:dagger:2.7'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    // Retrofit
+    compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
+        exclude module: 'stax-api'
+    }
 }

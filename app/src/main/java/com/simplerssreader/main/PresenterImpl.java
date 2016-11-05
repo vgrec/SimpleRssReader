@@ -1,7 +1,7 @@
 package com.simplerssreader.main;
 
-import com.simplerssreader.HttpRssLoader;
-import com.simplerssreader.RssItem;
+import com.simplerssreader.http.HttpRssLoader;
+import com.simplerssreader.model.SimpleItem;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,7 +37,7 @@ public class PresenterImpl implements RssListContract.Presenter {
     }
 
     @Override
-    public void viewArticleDetail(RssItem item) {
+    public void viewArticleDetail(SimpleItem item) {
         view.openInWebView(item.getLink());
     }
 

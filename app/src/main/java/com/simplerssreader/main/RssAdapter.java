@@ -1,4 +1,4 @@
-package com.simplerssreader;
+package com.simplerssreader.main;
 
 import java.util.List;
 
@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.simplerssreader.R;
+import com.simplerssreader.model.SimpleItem;
+
 public class RssAdapter extends BaseAdapter {
 
-	private final List<RssItem> items;
+	private final List<SimpleItem> items;
 	private final Context context;
 
-	public RssAdapter(Context context, List<RssItem> items) {
+	public RssAdapter(Context context, List<SimpleItem> items) {
 		this.items = items;
 		this.context = context;
 	}

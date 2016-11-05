@@ -1,6 +1,6 @@
 package com.simplerssreader.main;
 
-import com.simplerssreader.RssItem;
+import com.simplerssreader.model.SimpleItem;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public interface RssListContract {
 
     interface View {
-        void showItems(List<RssItem> items);
+        void showItems(List<SimpleItem> items);
 
         void showLoadingIndicator(boolean show);
 
@@ -23,7 +23,7 @@ public interface RssListContract {
 
         void loadItems();
 
-        void viewArticleDetail(RssItem item);
+        void viewArticleDetail(SimpleItem item);
 
         void cancel();
     }

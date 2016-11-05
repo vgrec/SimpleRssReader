@@ -12,10 +12,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.simplerssreader.HttpRssLoader;
+import com.simplerssreader.http.HttpRssLoader;
 import com.simplerssreader.R;
-import com.simplerssreader.RssAdapter;
-import com.simplerssreader.RssItem;
+import com.simplerssreader.model.SimpleItem;
 
 import java.util.List;
 
@@ -45,12 +44,12 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     @Override
     public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
         RssAdapter adapter = (RssAdapter) parent.getAdapter();
-        RssItem item = (RssItem) adapter.getItem(position);
+        SimpleItem item = (SimpleItem) adapter.getItem(position);
         presenter.viewArticleDetail(item);
     }
 
     @Override
-    public void showItems(List<RssItem> items) {
+    public void showItems(List<SimpleItem> items) {
         RssAdapter adapter = new RssAdapter(getActivity(), items);
         listView.setAdapter(adapter);
     }

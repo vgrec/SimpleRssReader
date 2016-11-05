@@ -1,7 +1,9 @@
 package com.simplerssreader;
 
+import com.simplerssreader.http.HttpRssLoader;
 import com.simplerssreader.main.PresenterImpl;
 import com.simplerssreader.main.RssListContract;
+import com.simplerssreader.model.SimpleItem;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,12 +32,12 @@ public class PresenterTest {
 
     private static final String LINK = "http://google.com";
     private RssListContract.View mockView;
-    private Observable<List<RssItem>> mockObservable;
+    private Observable<List<SimpleItem>> mockObservable;
 
     private RssListContract.Presenter presenter;
     private HttpRssLoader mockLoader;
-    private List<RssItem> rssItems = new ArrayList<>();
-    private RssItem item;
+    private List<SimpleItem> rssItems = new ArrayList<>();
+    private SimpleItem item;
 
     @Before
     public void setUp() {
@@ -46,7 +48,7 @@ public class PresenterTest {
         presenter = new PresenterImpl(mockView, mockLoader);
 
         // setup test data
-        item = new RssItem("Mock Item", LINK);
+        item = new SimpleItem("Mock Item", LINK);
         rssItems.add(item);
     }
 
@@ -65,7 +67,7 @@ public class PresenterTest {
         presenter.loadItems();
         verify(mockView, times(1)).showLoadingIndicator(true);
         verify(mockView, times(1)).showLoadingIndicator(false);
-        verify(mockView).showItems(anyListOf(RssItem.class));
+        verify(mockView).showItems(anyListOf(SimpleItem.class));
     }
 
     @Test
@@ -74,7 +76,7 @@ public class PresenterTest {
         when(mockLoader.loadRss(anyString())).thenReturn(mockObservable);
 
         presenter.loadItems();
-        verify(mockView, never()).showItems(anyListOf(RssItem.class));
+        verify(mockView, never()).showItems(anyListOf(SimpleItem.class));
         verify(mockView).showLoadingIndicator(false);
         verify(mockView).showError();
     }
