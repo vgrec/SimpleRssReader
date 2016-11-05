@@ -1,14 +1,15 @@
 package com.simplerssreader.main;
 
 import com.simplerssreader.http.PcWorldRssService;
+import com.simplerssreader.http.di.DaggerNetworkComponent;
+import com.simplerssreader.http.di.NetworkModule;
 import com.simplerssreader.model.Item;
 import com.simplerssreader.model.SimpleItem;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,13 +23,20 @@ public class RssListPresenter implements RssListContract.Presenter {
     private RssListContract.View view;
     private Subscription subscription;
 
+    @Inject
+    PcWorldRssService rssService;
+
     public RssListPresenter(RssListContract.View view) {
         this.view = view;
+        DaggerNetworkComponent.builder()
+                .networkModule(new NetworkModule())
+                .build()
+                .inject(this);
     }
 
     @Override
     public void loadItems() {
-        subscription = getPcWorldRssService().getRssFeed()
+        subscription = rssService.getRssFeed()
                 .map(rss -> convertFromSource(rss.getChannel().getItemList()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,15 +66,5 @@ public class RssListPresenter implements RssListContract.Presenter {
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
-    }
-
-    private PcWorldRssService getPcWorldRssService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PcWorldRssService.BASE_URL)
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        return retrofit.create(PcWorldRssService.class);
     }
 }
