@@ -1,8 +1,15 @@
 package com.simplerssreader.main;
 
-import com.simplerssreader.http.HttpRssLoader;
+import com.simplerssreader.http.PcWorldRssService;
+import com.simplerssreader.model.Item;
 import com.simplerssreader.model.SimpleItem;
 
+import java.util.List;
+
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -12,20 +19,17 @@ import rx.schedulers.Schedulers;
  * UI as required.
  */
 public class PresenterImpl implements RssListContract.Presenter {
-    private static final String RSS_LINK = "http://www.pcworld.com/index.rss";
-
     private RssListContract.View view;
-    private HttpRssLoader rssLoader;
     private Subscription subscription;
 
-    public PresenterImpl(RssListContract.View view, HttpRssLoader rssLoader) {
+    public PresenterImpl(RssListContract.View view) {
         this.view = view;
-        this.rssLoader = rssLoader;
     }
 
     @Override
     public void loadItems() {
-        subscription = rssLoader.loadRss(RSS_LINK)
+        subscription = getPcWorldRssService().getRssFeed()
+                .map(rss -> convertFromSource(rss.getChannel().getItemList()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.showLoadingIndicator(true))
@@ -34,6 +38,14 @@ public class PresenterImpl implements RssListContract.Presenter {
                         result -> view.showItems(result),
                         error -> view.showError()
                 );
+    }
+
+    private List<SimpleItem> convertFromSource(List<Item> items) {
+        return Observable.from(items)
+                .map(item -> new SimpleItem(item.getTitle(), item.getLink()))
+                .toList()
+                .toBlocking()
+                .single();
     }
 
     @Override
@@ -46,5 +58,15 @@ public class PresenterImpl implements RssListContract.Presenter {
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+    }
+
+    private PcWorldRssService getPcWorldRssService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PcWorldRssService.BASE_URL)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        return retrofit.create(PcWorldRssService.class);
     }
 }

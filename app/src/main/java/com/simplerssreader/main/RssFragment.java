@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.simplerssreader.http.HttpRssLoader;
 import com.simplerssreader.R;
 import com.simplerssreader.model.SimpleItem;
 
@@ -36,7 +35,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new PresenterImpl(this, new HttpRssLoader());
+        presenter = new PresenterImpl(this);
         presenter.loadItems();
     }
 

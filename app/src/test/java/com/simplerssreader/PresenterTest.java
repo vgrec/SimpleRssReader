@@ -1,6 +1,5 @@
 package com.simplerssreader;
 
-import com.simplerssreader.http.HttpRssLoader;
 import com.simplerssreader.main.PresenterImpl;
 import com.simplerssreader.main.RssListContract;
 import com.simplerssreader.model.SimpleItem;
@@ -35,7 +34,6 @@ public class PresenterTest {
     private Observable<List<SimpleItem>> mockObservable;
 
     private RssListContract.Presenter presenter;
-    private HttpRssLoader mockLoader;
     private List<SimpleItem> rssItems = new ArrayList<>();
     private SimpleItem item;
 
@@ -44,8 +42,7 @@ public class PresenterTest {
         Utils.setupRxJava();
 
         mockView = mock(RssListContract.View.class);
-        mockLoader = mock(HttpRssLoader.class);
-        presenter = new PresenterImpl(mockView, mockLoader);
+        presenter = new PresenterImpl(mockView);
 
         // setup test data
         item = new SimpleItem("Mock Item", LINK);
@@ -62,8 +59,6 @@ public class PresenterTest {
     @Test
     public void shouldLoadRssItem() {
         mockObservable = Observable.just(rssItems);
-        when(mockLoader.loadRss(anyString())).thenReturn(mockObservable);
-
         presenter.loadItems();
         verify(mockView, times(1)).showLoadingIndicator(true);
         verify(mockView, times(1)).showLoadingIndicator(false);
@@ -73,8 +68,6 @@ public class PresenterTest {
     @Test
     public void shouldShowError() {
         mockObservable = Observable.error(new IOException());
-        when(mockLoader.loadRss(anyString())).thenReturn(mockObservable);
-
         presenter.loadItems();
         verify(mockView, never()).showItems(anyListOf(SimpleItem.class));
         verify(mockView).showLoadingIndicator(false);
