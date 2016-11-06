@@ -1,7 +1,10 @@
 package com.simplerssreader.http.di;
 
+import com.simplerssreader.http.PcWorldRssService;
 import com.simplerssreader.main.RssListContract;
 import com.simplerssreader.main.RssListPresenter;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,12 +19,14 @@ public class RssListModule {
     }
 
     @Provides
-    RssListContract.View provideRssFragment() {
+    @Singleton
+    RssListContract.View provideRssView() {
         return view;
     }
 
     @Provides
-    RssListPresenter providesRssListPresenter(RssListContract.View view) {
-        return new RssListPresenter(view);
+    @Singleton
+    RssListPresenter providesRssListPresenter(RssListContract.View view, PcWorldRssService rssService) {
+        return new RssListPresenter(view, rssService);
     }
 }

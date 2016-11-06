@@ -1,8 +1,6 @@
 package com.simplerssreader.main;
 
 import com.simplerssreader.http.PcWorldRssService;
-import com.simplerssreader.http.di.DaggerNetworkComponent;
-import com.simplerssreader.http.di.NetworkModule;
 import com.simplerssreader.model.Item;
 
 import javax.inject.Inject;
@@ -19,19 +17,12 @@ public class RssListPresenter implements RssListContract.Presenter {
     private RssListContract.View view;
     private Subscription subscription;
 
+    private PcWorldRssService rssService;
+
     @Inject
-    PcWorldRssService rssService;
-
-    public RssListPresenter(RssListContract.View view) {
+    public RssListPresenter(RssListContract.View view, PcWorldRssService rssService) {
         this.view = view;
-        setupDI();
-    }
-
-    private void setupDI() {
-        DaggerNetworkComponent.builder()
-                .networkModule(new NetworkModule())
-                .build()
-                .inject(this);
+        this.rssService = rssService;
     }
 
     @Override

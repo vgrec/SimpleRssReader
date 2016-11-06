@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.simplerssreader.R;
-import com.simplerssreader.http.di.DaggerRssListComponent;
+import com.simplerssreader.http.di.DaggerApplicationComponent;
 import com.simplerssreader.http.di.RssListModule;
 import com.simplerssreader.model.Item;
 
@@ -46,10 +46,11 @@ public class RssFragment extends Fragment implements OnItemClickListener, RssLis
     }
 
     private void setupDI() {
-        DaggerRssListComponent.builder()
+        DaggerApplicationComponent.builder()
                 .rssListModule(new RssListModule(this))
                 .build()
                 .inject(this);
+
     }
 
 

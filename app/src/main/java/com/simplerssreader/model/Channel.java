@@ -21,5 +21,8 @@ public class Channel {
         return itemList;
     }
 
+    public void setItemList(List<Item> itemList) {
+        this.itemList = itemList;
+    }
 }
 
